@@ -20,11 +20,14 @@
 
     <div class="card">
       <div class="card-body">
-        Hello
-        
+        Hello        
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-          Launch demo modal
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-new">
+          New
+        </button>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit">
+          Edit
         </button>
 
       </div>
@@ -65,11 +68,12 @@
 </script>
 
 <script id="modalTemplate" type="text/x-handlebars-template">
-<div class="modal" tabindex="-1" role="dialog" id="exampleModal" >
+{{#each modalTypes}}
+<div class="modal" tabindex="-1" role="dialog" id="{{mode}}" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">{{title}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -84,6 +88,7 @@
     </div>
   </div>
 </div>
+{{/each}}
 </script>
 
 
@@ -151,19 +156,22 @@ $(document).ready(function(){
     var modalTemplate = document.getElementById("modalTemplate").innerHTML;
     var compiledmodalTemplate = Handlebars.compile(modalTemplate);
 
-    let modalTypes = [
-      {
-        mode: 'new',
-      },
-      {
-        mode: 'editing',
-      }
-    ];
+    let json_data = { 
+      modalTypes: [
+        {
+          mode: 'modal-new',
+          title: 'New',
+        },
+        {
+          mode: 'modal-edit',
+          title: 'Edit',
+        }
+      ]
+    };
 
-    var modalsGeneratedHTML = compiledmodalTemplate(modalTypes);
+    var modalsGeneratedHTML = compiledmodalTemplate(json_data);
     document.getElementById("modals-container").innerHTML = modalsGeneratedHTML;
     
-
 
 
   }
